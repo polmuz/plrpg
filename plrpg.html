@@ -24,7 +24,13 @@
 	       placeholder="0"
 	       class="member-input"
 	       value="<%= card_modifier ? card_modifier : '' %>"/>
+	<span class="member-day-progress">
+	  <%= last_progress ? last_progress : 0 %>
+	</span>
 	<a href="#" class="delete-member">Delete</a>
+	<span class="member-day-total">
+	  <%= last_total ? last_total : 0 %>
+	</span>
       </div>
     </script>
   </head>
@@ -35,11 +41,13 @@
       </ul>
       <p>
 	<a href="#" id="add-member">Add Member</a>
-	<a href="#" id="refresh-total">Refresh total</a>
+	<a href="#" id="refresh-total">Calculate daily progress</a>
+      </p>
+      <p>
+	Dice: <input type="text" value="10" id="dice-number" />
       </p>
       <h3>Total:</h3>
       <p><span id="total">0</span></p>
-      
     </div>
   </body>
 </html>

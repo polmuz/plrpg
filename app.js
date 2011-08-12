@@ -3,7 +3,20 @@ $(function(){
     defaults: {
 	name: "",
 	modifier: 0,
-	card_modifier: 0
+	card_modifier: 0,
+	last_progress: 0,
+	last_total: 0
+    },
+    totalModifiers: function() {
+      return this.attributes.modifier + this.attributes.card_modifier;
+    },
+    totalProgress: function() {
+      var last_total = this.totalModifiers() + this.attributes.last_progress;
+      if (last_total < 0) {
+	  last_total = 0;
+      }
+      this.set({'last_total': last_total});
+      return last_total;
     }
   });
 
@@ -35,10 +48,6 @@ $(function(){
     updateOnEnter: function(e){
       if (e.keyCode != 13) return;
       this.input = this.$('.member-input');
-      // this.model.name = this.input[0].value;
-      // this.model.modifier = parseInt(this.input[1].value, 10);
-      // this.model.card_modifier = parseInt(this.input[2].value, 10);
-      // this.model.save();
       this.model.save({
 		       name: this.input[0].value,
       		       modifier: parseInt(this.input[1].value, 10),
@@ -65,16 +74,19 @@ $(function(){
     },
     events: {
       "click #add-member": "addMember",
-      "click #refresh-total": "refreshTotal"	
+      "click #refresh-total": "calculateDailyTotal"	
     },
     addMember: function(){
       var view = new MemberView({model: Members.create()});
       this.$("#member-list").append(view.render().el);
     },
-    refreshTotal: function(){
+    calculateDailyTotal: function(){
       var total = 0;
       Members.each(function(member){
-        total += member.attributes.modifier + member.attributes.card_modifier;
+	var dice = parseInt($("#dice-number")[0].value, 10);
+        var progress = Math.floor(Math.random() * dice);
+        member.set({'last_progress': progress});
+        total += member.totalProgress();
       });
       $('#total').text(total.toString());
     }
