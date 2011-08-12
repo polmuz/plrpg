@@ -7,7 +7,7 @@
     <script type="text/javascript" src="backbone-min.js"></script>
     <script type="text/javascript" src="backbone-localstorage.js"></script>
     <script type="text/javascript" src="app.js"></script>
-
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
     <!-- Templates -->
     <script type="text/template" id="member-template">
 	<td>
@@ -46,13 +46,27 @@
   </head>
   <body>
     <div id="members-app">
-      <table id="member-list" border="1">
-	  <th>Member Name</th>
-	  <th class="admin-only">Modifier</th>
-	  <th class="admin-only">Card Modifier</th>
-	  <th class="admin-only">Today's progress</th>
-	  <th>Today's total</th>
-	  <th>Actions</th>
+      <table id="member-list" class=".one-column-emphasis">
+	<thead>
+	  <tr>
+	    <th>Member Name</th>
+	    <th class="admin-only">Modifier</th>
+	    <th class="admin-only">Card Modifier</th>
+	    <th class="admin-only">Today's progress</th>
+	    <th>Today's total</th>
+	    <th>Actions</th>	    
+	  </tr>
+	</thead>
+	<tfoot>
+	  <tr>
+	    <td>Total</td>
+	    <td class="admin-only"></td>
+	    <td class="admin-only"></td>
+	    <td class="admin-only"></td>
+	    <td><span id="total">0</span></td>
+	    <td></td>
+	  </tr>
+	</tfoot>
       </table>
       <p>
 	<a href="#" id="add-member">Add Member</a>
@@ -62,8 +76,6 @@
       <p>
 	Dice: <input type="text" value="10" id="dice-number" />
       </p>
-      <h3>Total:</h3>
-      <p><span id="total">0</span></p>
     </div>
   </body>
 </html>
