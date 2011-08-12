@@ -1,7 +1,7 @@
 $(function(){
   window.Member = Backbone.Model.extend({
     defaults: {
-	name: "Member Name",
+	name: "",
 	modifier: 0,
 	card_modifier: 0
     }
@@ -18,7 +18,8 @@ $(function(){
     tagName: "li",
     template: _.template($("#member-template").html()),
     events: {
-      "keypress .member-input": "updateMember"
+      "keypress .member-input": "updateOnEnter",
+      "click .delete-member": "clear"
     },
 
     initialize: function() {
@@ -31,21 +32,53 @@ $(function(){
       return this;
     },
 
-    updateMember: function(e){
+    updateOnEnter: function(e){
+      if (e.keyCode != 13) return;
       this.input = this.$('.member-input');
-      this.model.save({name: this.input[0].value,
-		       modifier: parseInt(this.input[1].value),
-		       card_modifier: parseInt(this.input[2].value)}
-		     );
+      // this.model.name = this.input[0].value;
+      // this.model.modifier = parseInt(this.input[1].value, 10);
+      // this.model.card_modifier = parseInt(this.input[2].value, 10);
+      // this.model.save();
+      this.model.save({
+		       name: this.input[0].value,
+      		       modifier: parseInt(this.input[1].value, 10),
+      		       card_modifier: parseInt(this.input[2].value, 10)
+		      }
+      		     );
+    },
+    clear: function(){
+      this.model.destroy();
     }
-			
   });
 
-
-});
-
-$('#add-member').bind('click', function() {
-  var view = new MemberView({model: new Member()});
-  this.$("#member-list").append(view.render().el);
-  return false;
+  window.AppView = Backbone.View.extend({
+    el: $("#members-app"),
+    initialize: function () {
+	Members.fetch();
+	var that = this;
+	Members.each(
+	  function(member){
+	    var view = new MemberView({model: member});
+	    that.$("#member-list").append(view.render().el);
+	  }
+	);
+    },
+    events: {
+      "click #add-member": "addMember",
+      "click #refresh-total": "refreshTotal"	
+    },
+    addMember: function(){
+      var view = new MemberView({model: Members.create()});
+      this.$("#member-list").append(view.render().el);
+    },
+    refreshTotal: function(){
+      var total = 0;
+      Members.each(function(member){
+        total += member.attributes.modifier + member.attributes.card_modifier;
+      });
+      $('#total').text(total.toString());
+    }
+  });
+   
+  window.App = new AppView;
 });

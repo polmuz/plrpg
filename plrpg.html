@@ -11,18 +11,35 @@
     <!-- Templates -->
     <script type="text/template" id="member-template">
       <div class="member">
-	<input type="text" placeholder="Member Name" class="member-input"/>
-	<input type="text" placeholder="0" class="member-input"/>
-	<input type="text" placeholder="0" class="member-input"/>
+	<input type="text"
+	       placeholder="Member Name"
+	       class="member-input"
+	       value="<%= name ? name : '' %>"
+	       />
+	<input type="text"
+	       placeholder="0"
+	       class="member-input"
+	       value="<%= modifier ? modifier : '' %>"/>
+	<input type="text"
+	       placeholder="0"
+	       class="member-input"
+	       value="<%= card_modifier ? card_modifier : '' %>"/>
+	<a href="#" class="delete-member">Delete</a>
       </div>
     </script>
   </head>
   <body>
-    <div id="members">
+    <div id="members-app">
       <ul id="member-list">
 	
       </ul>
-      <a href="#" id="add-member">Add Member</a>
+      <p>
+	<a href="#" id="add-member">Add Member</a>
+	<a href="#" id="refresh-total">Refresh total</a>
+      </p>
+      <h3>Total:</h3>
+      <p><span id="total">0</span></p>
+      
     </div>
   </body>
 </html>
