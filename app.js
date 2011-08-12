@@ -28,7 +28,7 @@ $(function(){
   window.Members = new MemberList;
 
   window.MemberView = Backbone.View.extend({
-    tagName: "li",
+    tagName: "tr",
     template: _.template($("#member-template").html()),
     events: {
       "keypress .member-input": "updateOnEnter",
@@ -74,7 +74,8 @@ $(function(){
     },
     events: {
       "click #add-member": "addMember",
-      "click #refresh-total": "calculateDailyTotal"	
+      "click #refresh-total": "calculateDailyTotal",
+      "click #toggle-admin-fields": "toggleAdminFields"
     },
     addMember: function(){
       var view = new MemberView({model: Members.create()});
@@ -89,6 +90,11 @@ $(function(){
         total += member.totalProgress();
       });
       $('#total').text(total.toString());
+    },
+    toggleAdminFields: function() {
+      $.each($('.admin-only'), function(i, el) {
+        $(el).toggle();
+      });
     }
   });
    

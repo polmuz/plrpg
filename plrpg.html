@@ -10,38 +10,54 @@
 
     <!-- Templates -->
     <script type="text/template" id="member-template">
-      <div class="member">
-	<input type="text"
-	       placeholder="Member Name"
-	       class="member-input"
-	       value="<%= name ? name : '' %>"
-	       />
-	<input type="text"
-	       placeholder="0"
-	       class="member-input"
-	       value="<%= modifier ? modifier : '' %>"/>
-	<input type="text"
-	       placeholder="0"
-	       class="member-input"
-	       value="<%= card_modifier ? card_modifier : '' %>"/>
-	<span class="member-day-progress">
+	<td>
+	  <input type="text"
+		 placeholder="Member Name"
+		 class="member-input"
+		 value="<%= name ? name : '' %>"
+		 />
+	</td>
+	<td class="admin-only">
+	  <input type="text"
+		 placeholder="0"
+		 class="member-input"
+		 value="<%= modifier ? modifier : '' %>"/>
+	</td>
+	<td class="admin-only">
+	  <input type="text"
+		 placeholder="0"
+		 class="member-input"
+		 value="<%= card_modifier ? card_modifier : '' %>"/>
+	</td>
+	<td class="admin-only">
+	  <span class="member-day-progress">
 	  <%= last_progress ? last_progress : 0 %>
-	</span>
-	<a href="#" class="delete-member">Delete</a>
-	<span class="member-day-total">
-	  <%= last_total ? last_total : 0 %>
-	</span>
-      </div>
+	  </span>
+	</td>
+	<td>
+	  <span class="member-day-total">
+	    <%= last_total ? last_total : 0 %>
+	  </span>
+	</td>
+	<td>
+	  <a href="#" class="delete-member">Delete</a>
+	</td>
     </script>
   </head>
   <body>
     <div id="members-app">
-      <ul id="member-list">
-	
-      </ul>
+      <table id="member-list" border="1">
+	  <th>Member Name</th>
+	  <th class="admin-only">Modifier</th>
+	  <th class="admin-only">Card Modifier</th>
+	  <th class="admin-only">Today's progress</th>
+	  <th>Today's total</th>
+	  <th>Actions</th>
+      </table>
       <p>
 	<a href="#" id="add-member">Add Member</a>
 	<a href="#" id="refresh-total">Calculate daily progress</a>
+	<a href="#" id="toggle-admin-fields">Toggle admin fields</a>
       </p>
       <p>
 	Dice: <input type="text" value="10" id="dice-number" />
